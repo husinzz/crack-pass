@@ -3,7 +3,7 @@ import paho.mqtt.client as mqtt
 
 
 def crackPassword():
-    # go(uri)
+    go(uri)
 
     for i in range(len(passs)):
         fv('1', 'username', 'admin')
