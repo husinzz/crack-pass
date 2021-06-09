@@ -9,8 +9,8 @@ def on_message(client, userdata, message):
 
 global msg
 msg = ''
-addr = 'localhost'
-port = 9000
+addr = 'broker.emqx.io'
+port = 1883
 
 client = mqtt.Client('Broker')
 client.on_message = on_message

