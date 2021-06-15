@@ -9,8 +9,8 @@ def on_message(client, userdata, message):
 
 global msg
 msg = ''
-addr = 'broker.emqx.io'
-port = 1883
+addr = 'localhost'
+port = 9000
 
 client = mqtt.Client('Broker')
 client.on_message = on_message
@@ -24,7 +24,7 @@ while True:
     client.loop_start()
     client.subscribe('topic/worker/result')
     client.loop_stop()
-    time.sleep(1)
+    # time.sleep(1)
 
     if ('Success' in msg):
         client.publish('topic/hack', 'stop')

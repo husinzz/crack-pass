@@ -23,9 +23,9 @@ global msg
 msg = ''
 
 passs = ['bababuwi', 'bababuwi', 'bababuwi',
-         'bababuwi', 'bababuwi', 'bababuwi']
+         'bababuwi', 'bababuwi', 'bababuwi', 'password']
 
-addr, port, uri = 'broker.emqx.io', 1883, 'http://localhost'
+addr, port, uri = 'localhost', 9000, 'http://localhost'
 
 client = mqtt.Client('Worker')
 client.on_message = on_message
